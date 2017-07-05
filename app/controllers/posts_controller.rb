@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!,:only =>[:new,:create]
+  before_action :authenticate_user!,:only =>[:new,:create,:edit,:destroy]
 
   def new
     @group=Group.find(params[:group_id])
@@ -20,6 +20,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @group=Group.find(params[:group_id])
     @post=Post.find(params[:id])
   end
 
@@ -27,17 +28,17 @@ class PostsController < ApplicationController
     @group=Group.find(params[:group_id])
     @post=Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to group_path(@group)
+      redirect_to account_posts_path
     else
       render :edit
     end
   end
 
   def destroy
-    @group=Group.find(params[:group_id])
-    @post=Post.fid(params[:id])
+
+    @post=Post.find(params[:id])
     @post.destroy
-    redirect_to group_path(@group)
+    redirect_to account_posts_path
   end
 
   private
